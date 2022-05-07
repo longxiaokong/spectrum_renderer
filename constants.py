@@ -454,4 +454,4 @@ XYZ_to_sRGB_mat = (XYZ.T * np.diag(S.tolist()[0])).I
 sRGB_to_XYZ_mat = XYZ * np.diag(S.tolist()[0])
 
 gamma = 2.2
-Illuminant = 1.0
+Illuminant = 0.75
