@@ -1,7 +1,8 @@
 import sys
+
 from PyQt5 import QtWidgets
 
-from ui import My_Main_window, get_resource_path
+from ui import My_Main_window
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
