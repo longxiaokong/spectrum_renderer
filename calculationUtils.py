@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from PyQt5.QtWidgets import QProgressBar
+from PyQt5.QtCore import pyqtSignal
 from matplotlib.colors import ListedColormap
 
 from colourUtils import generate_color_map
@@ -47,7 +47,7 @@ def render_screen(spacing: float, distance: float, height: int, half_width: int,
 
 
 def render_horizontal_plane(spacing: float, distance: float, half_width: int, wavelength: int,
-                            progress_bar_handler: QProgressBar = None) -> np.ndarray:
+                            progress_bar_handler: pyqtSignal = None) -> np.ndarray:
     """
     渲染双缝平面前一定区域的水平面
 
@@ -70,7 +70,7 @@ def render_horizontal_plane(spacing: float, distance: float, half_width: int, wa
             pic[tx, half_width - ty] = illuminant
             cnt += 1
             if progress_bar_handler is not None:
-                progress_bar_handler.setValue(cnt / tot * 100)
+                progress_bar_handler.emit(cnt / tot * 100)
     return pic
 
 
