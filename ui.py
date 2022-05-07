@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QHBoxLayout, QSlider, QVBoxLayout, QLabel, QRadioButton, QButtonGroup, QProgressBar
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.colors import ListedColormap
@@ -52,6 +52,7 @@ class My_Main_window(QtWidgets.QDialog):
         super(My_Main_window, self).__init__(parent)
 
         # 几个QWidgets
+        self.setWindowIcon(QIcon(get_resource_path('icon.png')))
         self.horizontal_screen_thread = None
         self.setWindowTitle("双缝干涉模拟")
         self.screen_figure = plt.figure()
@@ -151,9 +152,9 @@ class My_Main_window(QtWidgets.QDialog):
 
     def on_render_done(self, horizontal_data, l, half_width, new_cmap):
         plt.figure(num=self.horizontal_figure.number)
-        plt.imshow(horizontal_data, extent=(-half_width, half_width, 0, l * (10 ** 3)), origin='lower', cmap=new_cmap)
-        plt.yticks([])
-        plt.xticks(np.arange(-half_width, half_width + 1, step=half_width // 5))
+        plt.imshow(horizontal_data.T, extent=(0, l * (10 ** 3), -half_width, half_width), origin='lower', cmap=new_cmap)
+        plt.yticks(np.arange(-half_width, half_width + 1, step=half_width // 5))
+        plt.xticks([])
         self.horizontal_canvas.draw()
         self.unlock_all_interactions()
 

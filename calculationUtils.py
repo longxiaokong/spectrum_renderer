@@ -60,17 +60,17 @@ def render_horizontal_plane(spacing: float, distance: float, half_width: int, wa
     """
     distance = int(distance * (10 ** 3))
     pic = np.zeros([distance + 1, 2 * half_width + 1])
-    tot = (distance - 1) * half_width
+    tot = distance * (half_width + 1)
     cnt = 0
-    for tx in range(0, distance):
+    for tx in range(0, distance + 1):
         for ty in range(0, half_width + 1):
             illuminant = calc_illuminant(spacing, wavelength, (tx * (10 ** -3), ty * (10 ** -5))) / 4
             # colour = wavelength_to_srgb(wavelength, illuminant)
             pic[tx, half_width + ty] = illuminant
             pic[tx, half_width - ty] = illuminant
             cnt += 1
-            if progress_bar_handler is not None:
-                progress_bar_handler.emit(cnt / tot * 100)
+        if progress_bar_handler is not None:
+            progress_bar_handler.emit(cnt / tot * 100)
     return pic
 
 
