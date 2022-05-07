@@ -20,12 +20,18 @@ matplotlib.use('Qt5Agg')
 
 
 def get_resource_path(relative_path):
+    """
+    返回由pyinstaller解压出的文件的真实路径
+
+    :param relative_path: 文件与程序的相对路径
+    :return: 绝对路径
+    """
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
 
-class horizontal_screen_thread(QThread):
+class horizontal_screen_thread(QThread):  # 为了防假死必须开线程来运算长时间图像
     _signal = pyqtSignal(ndarray, float, int, ListedColormap)
 
     def __init__(self, d: float, l: float, half_width: int, wavelength: int,

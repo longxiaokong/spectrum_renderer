@@ -1,9 +1,9 @@
 import numpy as np
 
-color_matching_function = np.array([
-    [0.00295242, 0.0004076779, 0.01318752],  # 390
-    [0.003577275, 0.0004977769, 0.01597879],  # 391
-    [0.004332146, 0.0006064754, 0.01935758],  # 392
+color_matching_function = np.array([  # 390nm-800nm的颜色匹配函数
+    [0.00295242, 0.0004076779, 0.01318752],
+    [0.003577275, 0.0004977769, 0.01597879],
+    [0.004332146, 0.0006064754, 0.01935758],
     [0.005241609, 0.000737004, 0.02343758],
     [0.006333902, 0.0008929388, 0.02835021],
     [0.007641137, 0.001078166, 0.03424588],
@@ -444,14 +444,14 @@ color_matching_function = np.array([
     [1.579199e-06, 6.34538e-07, 0.0]
 ])
 
-D65_whitepoint = np.array([0.95047, 1.00000, 1.08883])
-xy = np.array([[0.6400, 0.3300],
-               [0.3000, 0.6000],
-               [0.1500, 0.0600]])
-XYZ = np.matrix([xy[:, 0] / xy[:, 1], np.array(np.ones(3).T), (1 - np.sum(xy, 1)) / xy[:, 1]]).T
-S = np.dot(D65_whitepoint, XYZ.I)
-XYZ_to_sRGB_mat = (XYZ.T * np.diag(S.tolist()[0])).I
-sRGB_to_XYZ_mat = XYZ * np.diag(S.tolist()[0])
+D65_whitepoint = np.array([0.95047, 1.00000, 1.08883])  # D65白光点的xyz值
+xy = np.array([[0.6400, 0.3300],  # 红点xyz值
+               [0.3000, 0.6000],  # 绿点xyz值
+               [0.1500, 0.0600]])  # 蓝点xyz值
+XYZ = np.matrix([xy[:, 0] / xy[:, 1], np.array(np.ones(3).T), (1 - np.sum(xy, 1)) / xy[:, 1]]).T  # 展开后的三点xyz值
+S = np.dot(D65_whitepoint, XYZ.I)  # 校准后sRGB空间基底
+XYZ_to_sRGB_mat = (XYZ.T * np.diag(S.tolist()[0])).I  # xyz值转为sRGB值所用矩阵
+sRGB_to_XYZ_mat = XYZ * np.diag(S.tolist()[0])  # sRGB值转为xyz值所用矩阵
 
-gamma = 2.2
-Illuminant = 0.75
+gamma = 2.2  # 矫正γ值, 请勿随意更改
+Illuminant = 0.75  # 光谱默认亮度

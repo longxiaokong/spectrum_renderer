@@ -8,6 +8,14 @@ from constants import Illuminant
 
 
 def calc_phase_difference(spacing: float, wavelength: int, pos: tuple) -> float:
+    """
+    计算pos处相位差
+
+    :param spacing: 双缝间距，单位米
+    :param wavelength: 波长，单位纳米
+    :param pos: 坐标，x轴为垂直于双缝平面的轴
+    :return: 弧度制相位差
+    """
     L1 = np.sqrt(np.square(pos[0]) + np.square(pos[1] - spacing / 2))
     L2 = np.sqrt(np.square(pos[0]) + np.square(pos[1] + spacing / 2))
     return 2 * np.pi * np.abs(L2 - L1) / (wavelength * (10 ** -9))
